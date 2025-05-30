@@ -1,0 +1,168 @@
+/* ==================================================== Style for custom Reviews ==================================================== */
+.reviews-loop {
+    display: flex;
+    flex-direction: column;
+    /* gap: 24px; */
+}
+
+.review-item {
+    display: flex;
+    padding: 24px 0px;
+    border-bottom: 1px solid var(--e-global-color-4be708b);
+    transition: transform 0.2s ease;
+}
+
+.review-item:hover {
+    transform: translateY(-3px);
+}
+
+.review-header {
+    display: flex;
+    flex-direction: column;
+    flex: 0 25%;
+    margin-right: 40px;
+}
+
+.review-avatar {
+    width: 48px;
+    height: 48px !important;
+    border-radius: 50% !important;
+    object-fit: cover;
+}
+
+.review-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-author {
+    color: var(--e-global-color-59264d0);
+    font-family: var(--e-global-typography-primary-font-family);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.review-stars {
+    font-size: 18px;
+    color: var(--e-global-color-76aef3a);
+    margin: 4px 0px;
+}
+.review-stars .star.filled {
+    color: #FFBC36;
+}
+
+.review-content{
+    flex: 1 100%;
+    padding: 0 20px 0 0;
+}
+
+.review-content p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--e-global-color-59264d0);
+}
+
+
+/* View More Pagination Container */
+.load-more-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* View More Pagination */
+#reviews-loadmore-wrapper, #reviews-loading-spinner{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    align-content: center !important;
+}
+
+#reviews-loadmore-wrapper #reviews-loadmore-btn{
+    color: var(--e-global-color-89f6c54);
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0px;
+    border: none;
+    text-decoration: underline;
+}
+
+#reviews-loadmore-wrapper #reviews-loadmore-btn:hover{
+    background-color: var(--e-global-color-61344fa);
+}
+
+#reviews-loadmore-wrapper #reviews-loadmore-btn:focus{
+    background-color: var(--e-global-color-61344fa) !important;
+}
+
+/* Button Pagination and Arrow Pagination */
+#reviews-pagination{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+#reviews-pagination .pagination-numbers{
+    display: flex;
+    gap: 12px;
+}
+
+.pagination-numbers .review-page-btn{
+    border-radius: 5px;
+    border: 1px solid var(--e-global-color-89f1980);
+    background-color: var(--e-global-color-61344fa);
+    color: var(--e-global-color-76aef3a);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 10px 20px;
+}
+
+.pagination-numbers .review-page-btn:hover{
+    background-color: var(--e-global-color-89f1980);
+}
+
+.pagination-numbers .review-page-btn:focus{
+    background-color: var(--e-global-color-89f1980) !important;
+}
+
+.pagination-numbers .review-page-btn.active{
+    background-color: var(--e-global-color-89f1980);
+    color: var(--e-global-color-61344fa);
+}
+
+#reviews-pagination .pagination-arrow{
+    color: var(--e-global-color-89f1980);
+    border: 1px solid var(--e-global-color-89f1980);
+    padding: 12px 32px;
+    border-radius: 53px;
+    line-height: 0;
+    font-size: 36px;
+}
+
+#reviews-pagination .pagination-arrow:hover{
+    background-color: var(--e-global-color-89f1980);
+    color: var(--e-global-color-61344fa);
+}
+
+#reviews-pagination .pagination-arrow:focus{
+    color: var(--e-global-color-89f1980);
+    background-color: var(--e-global-color-61344fa);
+}
+
+#reviews-pagination .pagination-arrow:focus:hover{
+    background-color: var(--e-global-color-89f1980);
+    color: var(--e-global-color-61344fa);
+}
+
+#reviews-pagination .pagination-arrow:disabled{
+    cursor: not-allowed;
+    color: #CCCCD0;
+    border: 1px solid #CCCCD0;
+}
+
+#reviews-pagination .pagination-arrow:disabled:hover{
+    background-color: #CCCCD0;
+    color: var(--e-global-color-61344fa);
+}
