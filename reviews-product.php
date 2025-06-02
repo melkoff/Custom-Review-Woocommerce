@@ -107,6 +107,9 @@ function handle_ajax_reviews() {
     wp_die();
 }
 
+
+add_action('wp_ajax_get_reviews_total_pages', 'get_reviews_total_pages');
+add_action('wp_ajax_nopriv_get_reviews_total_pages', 'get_reviews_total_pages');
 function get_reviews_total_pages() {
     $number = isset($_POST['number']) ? intval($_POST['number']) : 3;
     $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
