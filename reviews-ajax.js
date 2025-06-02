@@ -54,10 +54,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Fetch reviews
         const formData = new FormData();
-        formData.append('action', 'load_reviews');
-        formData.append('page', page);
-        formData.append('number', postsPerPage);
-        formData.append('load_more', isLoadMore ? 'true' : 'false');
+            formData.append('action', 'load_reviews');
+            formData.append('page', page);
+            formData.append('number', postsPerPage);
+            formData.append('load_more', isLoadMore ? 'true' : 'false');
+            formData.append('product_id', wrapper.dataset.productId);
 
         fetch('/wp-admin/admin-ajax.php', {
             method: 'POST',
@@ -107,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData();
         formData.append('action', 'get_reviews_total_pages');
         formData.append('number', postsPerPage);
+        formData.append('product_id', wrapper.dataset.productId);
 
         // Fetch the total number of pages
         fetch('/wp-admin/admin-ajax.php', {
