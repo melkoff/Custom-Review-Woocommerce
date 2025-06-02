@@ -1,15 +1,23 @@
 <?php
 // Register shortcode to display WooCommerce reviews
 function get_woocommerce_reviews_shortcode($atts) {
+    global $product; // Get the global $product variable
+    
     $atts = shortcode_atts(array(
-        'number' => 3, // Default number of reviews per page, but we can change it in Elementor shortcode like this [woocommerce_reviews number=3]
+        'number' => 3,
+        'product_id' => is_a($product, 'WC_Product') ? $product->get_id() : 0, // Get the product ID
     ), $atts);
 
     ob_start();
     ?>
-    <div id="ajax-reviews-wrapper" data-posts-per-page="<?php echo esc_attr($atts['number']); ?>">
-        <?php echo get_reviews_html(1, $atts['number'], false); // First page, no load more ?>
+    
+
+    <div id="ajax-reviews-wrapper" 
+         data-posts-per-page="<?php echo esc_attr($atts['number']); ?>" 
+         data-product-id="<?php echo esc_attr($atts['product_id']); ?>">
+        <?php echo get_reviews_html(1, $atts['number'], false, $atts['product_id']); ?>
     </div>
+
 
     <div class="load-more-container">
         <!-- Load More button -->
@@ -35,7 +43,7 @@ function get_woocommerce_reviews_shortcode($atts) {
 add_shortcode('woocommerce_reviews', 'get_woocommerce_reviews_shortcode');
 
 // Generate HTML markup for reviews
-function get_reviews_html($paged = 1, $number = -1, $hide_pagination = false) {
+function get_reviews_html($paged = 1, $number = -1, $hide_pagination = false, $product_id = 0) {
     $offset = ($paged - 1) * $number;
 
     $args = array(
@@ -43,10 +51,11 @@ function get_reviews_html($paged = 1, $number = -1, $hide_pagination = false) {
         'offset' => $offset,
         'status' => 'approve',
         'type'   => 'review',
+        'post_id' => $product_id,
     );
 
     $comments = get_comments($args);
-    $total = get_comments(array('count' => true, 'type' => 'review'));
+    $total = get_comments(array_merge($args, ['count' => true]));
 
     ob_start();
 
@@ -91,24 +100,24 @@ add_action('wp_ajax_nopriv_load_reviews', 'handle_ajax_reviews');
 function handle_ajax_reviews() {
     $paged = isset($_POST['page']) ? intval($_POST['page']) : 1;
     $number = isset($_POST['number']) ? intval($_POST['number']) : 5;
+    $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
     $is_load_more = isset($_POST['load_more']) && $_POST['load_more'] === 'true';
 
-    echo get_reviews_html($paged, $number, $is_load_more);
+    echo get_reviews_html($paged, $number, $is_load_more, $product_id);
     wp_die();
 }
 
-// Handle separate request to get total number of pages
-add_action('wp_ajax_get_reviews_total_pages', 'get_reviews_total_pages');
-add_action('wp_ajax_nopriv_get_reviews_total_pages', 'get_reviews_total_pages');
-
 function get_reviews_total_pages() {
     $number = isset($_POST['number']) ? intval($_POST['number']) : 3;
+    $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
 
     $args = array(
         'type'   => 'review',
         'status' => 'approve',
+        'post_id' => $product_id,
     );
-    $total = get_comments(array_merge($args, array('count' => true)));
+    
+    $total = get_comments(array_merge($args, ['count' => true]));
     $pages = ceil($total / $number);
 
     wp_send_json(['total_pages' => $pages]);
