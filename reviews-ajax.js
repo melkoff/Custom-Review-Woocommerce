@@ -106,6 +106,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update pagination UI elements
     function updatePaginationUI() {
+        // Responsive maxVisible
+        const isMobile = window.innerWidth < 576;
+        const maxVisible = isMobile ? 2 : 3;
+
         // Show/hide Load More button
         if (loadMoreBtn) {
             loadMoreBtn.style.display = (currentPage < totalPages) ? 'inline-block' : 'none';
@@ -119,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (paginationNumbers) {
             paginationNumbers.innerHTML = '';
 
-            const maxVisible = 3; // max visible numbered buttons
             let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
             let endPage = startPage + maxVisible - 1;
 
@@ -128,12 +131,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 startPage = Math.max(1, endPage - maxVisible + 1);
             }
 
-            // First page and ellipsis if needed
+            // First page and ellipsis
             if (startPage > 1) {
                 appendPageButton(1);
-                if (startPage > 2) {
-                    appendEllipsis();
-                }
+                if (startPage > 2) appendEllipsis();
             }
 
             // Middle buttons
@@ -141,11 +142,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 appendPageButton(i, i === currentPage);
             }
 
-            // Last page and ellipsis if needed
+            // Last page and ellipsis
             if (endPage < totalPages) {
-                if (endPage < totalPages - 1) {
-                    appendEllipsis();
-                }
+                if (endPage < totalPages - 1) appendEllipsis();
                 appendPageButton(totalPages);
             }
         }
@@ -165,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
             paginationNumbers.appendChild(span);
         }
     }
-
 
     // Fetch total number of pages from server
     function fetchTotalPages() {
